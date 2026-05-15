@@ -7,7 +7,7 @@ class MSHokejCard extends HTMLElement {
     return { entity: "sensor.ms_hokej_snapshot", title: "MS Hokej" };
   }
 
-  static getGridOptions() {
+  getGridOptions() {
     return {
       columns: 12,
       min_columns: 12,
