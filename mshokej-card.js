@@ -7,6 +7,15 @@ class MSHokejCard extends HTMLElement {
     return { entity: "sensor.ms_hokej_snapshot", title: "MS Hokej" };
   }
 
+  static getGridOptions() {
+    return {
+      columns: 12,
+      min_columns: 8,
+      rows: 8,
+      min_rows: 6,
+    };
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -108,7 +117,7 @@ class MSHokejCard extends HTMLElement {
       <div>
         <h2>Skupina ${groupName}</h2>
         <div class="table-wrap">
-          <table>
+          <table class="group-table">
             <tr><th>#</th><th>Tým</th><th>Z</th><th>W</th><th>OTW</th><th>OTL</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Body</th></tr>
             ${body}
           </table>
@@ -142,8 +151,8 @@ class MSHokejCard extends HTMLElement {
 
     return `
       <h2>${this._escape(title)}</h2>
-      <div class="table-wrap">
-        <table>
+        <div class="table-wrap">
+          <table class="match-table">
           <tr><th>Datum</th><th>Čas</th><th>Fáze</th><th>Skupina</th><th>ID</th><th>Zápas</th><th>Výsledek</th><th>Místo</th></tr>
           ${matches.map((match) => this._matchRow(match, favoriteTeam)).join("")}
         </table>
@@ -287,8 +296,10 @@ class MSHokejCard extends HTMLElement {
         }
         h1, h2, h3 { margin-bottom: 8px; }
         .meta { color: var(--muted); margin-bottom: 20px; }
-        .table-wrap { overflow-x: auto; margin-bottom: 20px; }
-        table { border-collapse: collapse; width: 100%; min-width: 760px; background: var(--surface); }
+        .table-wrap { overflow-x: auto; overflow-y: hidden; margin-bottom: 20px; max-width: 100%; }
+        table { border-collapse: collapse; width: max-content; min-width: 100%; background: var(--surface); }
+        table.group-table { min-width: 560px; }
+        table.match-table { min-width: 680px; }
         th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
         th { background: var(--th-bg); }
         .top4 { background: var(--top4); }
@@ -300,8 +311,8 @@ class MSHokejCard extends HTMLElement {
         .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px; }
         .summary-card strong { font-size: 24px; }
-        .bracket-wrap { overflow-x: auto; margin-bottom: 24px; padding-bottom: 8px; }
-        .bracket { display: grid; grid-template-columns: repeat(3, minmax(220px, 1fr)); gap: 16px; align-items: start; min-width: 760px; }
+        .bracket-wrap { overflow-x: auto; overflow-y: hidden; margin-bottom: 24px; padding-bottom: 8px; max-width: 100%; }
+        .bracket { display: grid; grid-template-columns: repeat(3, 260px); gap: 16px; align-items: start; width: max-content; min-width: 100%; }
         .bracket-round { display: flex; flex-direction: column; gap: 14px; }
         .bracket-round h3 { margin-top: 0; }
         .bracket-match { background: var(--surface); border: 1px solid var(--bracket-border); border-radius: 10px; padding: 12px; box-shadow: 0 1px 2px var(--bracket-shadow); }
@@ -313,13 +324,16 @@ class MSHokejCard extends HTMLElement {
         .report-toolbar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
         .theme-switch { border: 1px solid var(--border); background: var(--button-bg); color: var(--button-fg); border-radius: 999px; padding: 7px 13px; cursor: pointer; font-weight: 700; }
         ul { margin-top: 0; }
-        @media (min-width: 1000px) {
+        @media (min-width: 1400px) {
           .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         }
-        @media (max-width: 999px) {
+        @media (max-width: 1399px) {
           .container { padding: 16px; }
-          table { min-width: 720px; }
-          .bracket { min-width: 720px; }
+        }
+        @media (max-width: 899px) {
+          table.match-table { min-width: 620px; font-size: 13px; }
+          table.group-table { min-width: 520px; font-size: 13px; }
+          .bracket { grid-template-columns: repeat(3, 240px); }
         }
       </style>
       ${body}
