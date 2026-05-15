@@ -107,10 +107,12 @@ class MSHokejCard extends HTMLElement {
     return `
       <div>
         <h2>Skupina ${groupName}</h2>
-        <table>
-          <tr><th>#</th><th>Tým</th><th>Z</th><th>W</th><th>OTW</th><th>OTL</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Body</th></tr>
-          ${body}
-        </table>
+        <div class="table-wrap">
+          <table>
+            <tr><th>#</th><th>Tým</th><th>Z</th><th>W</th><th>OTW</th><th>OTL</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Body</th></tr>
+            ${body}
+          </table>
+        </div>
       </div>
     `;
   }
@@ -140,10 +142,12 @@ class MSHokejCard extends HTMLElement {
 
     return `
       <h2>${this._escape(title)}</h2>
-      <table>
-        <tr><th>Datum</th><th>Čas</th><th>Fáze</th><th>Skupina</th><th>ID</th><th>Zápas</th><th>Výsledek</th><th>Místo</th></tr>
-        ${matches.map((match) => this._matchRow(match, favoriteTeam)).join("")}
-      </table>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Datum</th><th>Čas</th><th>Fáze</th><th>Skupina</th><th>ID</th><th>Zápas</th><th>Výsledek</th><th>Místo</th></tr>
+          ${matches.map((match) => this._matchRow(match, favoriteTeam)).join("")}
+        </table>
+      </div>
     `;
   }
 
@@ -172,10 +176,12 @@ class MSHokejCard extends HTMLElement {
     const favoriteTeam = snapshot.favorite_team;
     return `
       <h2>Play-off pavouk</h2>
-      <div class="bracket">
-        ${this._renderBracketRound("Čtvrtfinále", snapshot.bracket?.QF || [], favoriteTeam)}
-        ${this._renderBracketRound("Semifinále", snapshot.bracket?.SF || [], favoriteTeam)}
-        ${this._renderBracketRound("Medaile", snapshot.bracket?.MEDAL || [], favoriteTeam)}
+      <div class="bracket-wrap">
+        <div class="bracket">
+          ${this._renderBracketRound("Čtvrtfinále", snapshot.bracket?.QF || [], favoriteTeam)}
+          ${this._renderBracketRound("Semifinále", snapshot.bracket?.SF || [], favoriteTeam)}
+          ${this._renderBracketRound("Medaile", snapshot.bracket?.MEDAL || [], favoriteTeam)}
+        </div>
       </div>
     `;
   }
@@ -281,7 +287,8 @@ class MSHokejCard extends HTMLElement {
         }
         h1, h2, h3 { margin-bottom: 8px; }
         .meta { color: var(--muted); margin-bottom: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; background: var(--surface); }
+        .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 100%; min-width: 760px; background: var(--surface); }
         th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
         th { background: var(--th-bg); }
         .top4 { background: var(--top4); }
@@ -293,7 +300,8 @@ class MSHokejCard extends HTMLElement {
         .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px; }
         .summary-card strong { font-size: 24px; }
-        .bracket { display: grid; grid-template-columns: repeat(3, minmax(220px, 1fr)); gap: 16px; align-items: start; margin-bottom: 24px; }
+        .bracket-wrap { overflow-x: auto; margin-bottom: 24px; padding-bottom: 8px; }
+        .bracket { display: grid; grid-template-columns: repeat(3, minmax(220px, 1fr)); gap: 16px; align-items: start; min-width: 760px; }
         .bracket-round { display: flex; flex-direction: column; gap: 14px; }
         .bracket-round h3 { margin-top: 0; }
         .bracket-match { background: var(--surface); border: 1px solid var(--bracket-border); border-radius: 10px; padding: 12px; box-shadow: 0 1px 2px var(--bracket-shadow); }
@@ -309,7 +317,9 @@ class MSHokejCard extends HTMLElement {
           .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         }
         @media (max-width: 999px) {
-          .bracket { grid-template-columns: 1fr; }
+          .container { padding: 16px; }
+          table { min-width: 720px; }
+          .bracket { min-width: 720px; }
         }
       </style>
       ${body}
