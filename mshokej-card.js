@@ -10,8 +10,8 @@ class MSHokejCard extends HTMLElement {
   static getGridOptions() {
     return {
       columns: 12,
-      min_columns: 8,
-      rows: 8,
+      min_columns: 12,
+      rows: 10,
       min_rows: 6,
     };
   }
@@ -274,6 +274,7 @@ class MSHokejCard extends HTMLElement {
           padding: 24px;
           background: var(--bg);
           color: var(--fg);
+          container-type: inline-size;
         }
         .container[data-theme="dark"] {
           --bg: #0b1220;
@@ -311,8 +312,9 @@ class MSHokejCard extends HTMLElement {
         .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px; }
         .summary-card strong { font-size: 24px; }
+        .grid-two { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .bracket-wrap { overflow-x: auto; overflow-y: hidden; margin-bottom: 24px; padding-bottom: 8px; max-width: 100%; }
-        .bracket { display: grid; grid-template-columns: repeat(3, 260px); gap: 16px; align-items: start; width: max-content; min-width: 100%; }
+        .bracket { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; width: 100%; min-width: 0; }
         .bracket-round { display: flex; flex-direction: column; gap: 14px; }
         .bracket-round h3 { margin-top: 0; }
         .bracket-match { background: var(--surface); border: 1px solid var(--bracket-border); border-radius: 10px; padding: 12px; box-shadow: 0 1px 2px var(--bracket-shadow); }
@@ -324,16 +326,20 @@ class MSHokejCard extends HTMLElement {
         .report-toolbar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
         .theme-switch { border: 1px solid var(--border); background: var(--button-bg); color: var(--button-fg); border-radius: 999px; padding: 7px 13px; cursor: pointer; font-weight: 700; }
         ul { margin-top: 0; }
-        @media (min-width: 1400px) {
-          .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @container (min-width: 950px) {
+          .bracket { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        @media (max-width: 1399px) {
+        @container (min-width: 1400px) {
+          .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+          .bracket { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @container (max-width: 1399px) {
           .container { padding: 16px; }
         }
-        @media (max-width: 899px) {
+        @container (max-width: 899px) {
           table.match-table { min-width: 620px; font-size: 13px; }
           table.group-table { min-width: 520px; font-size: 13px; }
-          .bracket { grid-template-columns: repeat(3, 240px); }
+          .summary-grid { grid-template-columns: 1fr; }
         }
       </style>
       ${body}
