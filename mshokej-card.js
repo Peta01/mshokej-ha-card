@@ -82,6 +82,7 @@ class MSHokejCard extends HTMLElement {
     return `
       <div class="summary-grid">
         <div class="summary-card"><strong>${overview.played ?? 0}/${overview.total ?? 0}</strong><span>Odehráno zápasů</span></div>
+        <div class="summary-card"><strong>${overview.live ?? 0}</strong><span>Právě se hraje</span></div>
         <div class="summary-card"><strong>${overview.remaining ?? 0}</strong><span>Zbývá odehrát</span></div>
         <div class="summary-card"><strong>${overview.group_played ?? 0}/${overview.group_total ?? 0}</strong><span>Skupinové zápasy</span></div>
       </div>
@@ -226,6 +227,7 @@ class MSHokejCard extends HTMLElement {
             ${this._renderGroupTable("B", snapshot.groups?.B || [], favoriteTeam)}
           </div>
           ${this._renderBracket(snapshot)}
+          ${this._renderMatchTable("Rozehrané zápasy", snapshot.sections?.live || [], "Aktuálně neběží žádný zápas LIVE.", favoriteTeam)}
           ${this._renderMatchTable("Nejbližší zápasy", snapshot.sections?.nearest || [], "Žádné nejbližší zápasy nejsou k dispozici.", favoriteTeam)}
           ${this._renderMatchTable("Odehrané zápasy", snapshot.sections?.played || [], "Zatím není odehraný žádný zápas.", favoriteTeam)}
           ${this._renderMatchTable("Zbývající zápasy", snapshot.sections?.remaining || [], "Všechny zápasy už jsou odehrané.", favoriteTeam)}
