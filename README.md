@@ -16,6 +16,24 @@ entity: sensor.ms_hokej_snapshot
 title: Mistrovství světa v ledním hokeji 2026
 ```
 
+## Recommended dashboard view
+
+For full-width rendering in Home Assistant, use this card in a dedicated `panel` view.
+Using it inside a `sections` view may keep the card visually constrained to the section grid.
+
+Example:
+
+```yaml
+type: panel
+title: MSHOKEJ
+path: mshokej
+icon: mdi:hockey-sticks
+cards:
+  - type: custom:mshokej-card
+    entity: sensor.snapshot
+    title: Mistrovství světa v ledním hokeji 2026
+```
+
 ## What it renders
 
 - overview cards
